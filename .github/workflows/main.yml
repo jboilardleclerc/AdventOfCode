@@ -1,7 +1,12 @@
 name: Run tests on push
-on: [push]
+on: 
+  push:
+  workflow_dispatch:
 jobs:
   install-dependencies:
+    defaults:
+      run:
+        working-directory: ./2024
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
