@@ -3,7 +3,7 @@ on:
   push:
   workflow_dispatch:
 jobs:
-  install-dependencies:
+  run-tests-and-ci:
     defaults:
       run:
         working-directory: ./2024
@@ -12,11 +12,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
       - run: npm install
-  run-tests:
-    defaults:
-      run:
-        working-directory: ./2024
-    runs-on: ubuntu-latest
-    needs: install-dependencies
-    steps:
       - run: npm run ci
