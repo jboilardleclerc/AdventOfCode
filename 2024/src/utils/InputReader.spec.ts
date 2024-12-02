@@ -12,6 +12,7 @@ describe("InputReader", () => {
       [__dirname]: {
         files: {
           "columns.txt": `1 2\n3    4\n`,
+          "lines.txt": `1 9\n2 8`,
         },
       },
     });
@@ -23,6 +24,15 @@ describe("InputReader", () => {
     expect(columns).toEqual([
       ["1", "3"],
       ["2", "4"],
+    ]);
+  });
+
+  it("should read the input file as lines and return the values in arrays", () => {
+    const inputReader = new InputReader(`${__dirname}/files/lines.txt`);
+    const lines = inputReader.readLines();
+    expect(lines).toEqual([
+      ["1", "9"],
+      ["2", "8"],
     ]);
   });
 });

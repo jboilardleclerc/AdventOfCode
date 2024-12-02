@@ -4,11 +4,11 @@
   "exclude": ["dist"],
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ES2022",
     "moduleResolution": "bundler",
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noEmit": true
   }
 }

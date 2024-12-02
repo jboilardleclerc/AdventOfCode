@@ -5,11 +5,14 @@ export class InputReader {
   constructor(input: string) {
     this.input = input;
   }
-  readColumns(): string[][] {
-    const lines = readFileSync(this.input, "utf-8")
+  readLines(): string[][] {
+    return readFileSync(this.input, "utf-8")
       .split("\n")
       .filter((line) => line !== "")
       .map((line) => line.trim().split(/\s+/));
+  }
+  readColumns(): string[][] {
+    const lines = this.readLines();
     const columns: string[][] = [];
     for (let i = 0; i < lines[0].length; i++) {
       columns[i] = [];
