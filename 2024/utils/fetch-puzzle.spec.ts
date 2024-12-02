@@ -1,6 +1,6 @@
 import { beforeAll, describe, it, vi, expect, afterAll } from "vitest";
 import { http, HttpHandler, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
+import { setupServer, SetupServerApi } from "msw/node";
 import { basePath, fetchPuzzle } from "./fetch-puzzle";
 import { fs, vol } from "memfs";
 import { resolve } from "path";
@@ -15,33 +15,37 @@ describe("fetch-puzzle", () => {
     "<p>instructions</p>",
   ];
   const expectedInputFileContents = ["input"];
-  const httpRequestHandlers: Record<string, HttpHandler> = {
-    instructionsHandler: http.get(
-      `${process.env.AOC_BASE_URL}/2024/day/1`,
-      () => {
-        return HttpResponse.html(`
-        <article>
-            ${expectedInstructionFileContents.join("\n")}
-        </article>`);
-      }
-    ),
-    inputHandler: http.get(
-      `${process.env.AOC_BASE_URL}/2024/day/1/input`,
-      () => {
-        return HttpResponse.text(`${expectedInputFileContents.join("\n")}`);
-      }
-    ),
-  };
-
-  const server = setupServer(...Object.values(httpRequestHandlers));
+  let httpRequestHandlers: Record<string, HttpHandler> ;
+  let server: SetupServerApi;
 
   beforeAll(() => {
-    server.listen();
     vol.fromNestedJSON({
       [resolve(__dirname, "../")]: {
         src: {},
       },
     });
+    vi.stubEnv("AOC_BASE_URL", "https://aoc.web");
+    vi.stubEnv("AOC_SESSION_TOKEN", "session_token");
+    httpRequestHandlers = {
+      instructionsHandler: http.get(
+        `${process.env.AOC_BASE_URL}/2024/day/1`,
+        () => {
+          return HttpResponse.html(`
+          <article>
+              ${expectedInstructionFileContents.join("\n")}
+          </article>`);
+        }
+      ),
+      inputHandler: http.get(
+        `${process.env.AOC_BASE_URL}/2024/day/1/input`,
+        () => {
+          return HttpResponse.text(`${expectedInputFileContents.join("\n")}`);
+        }
+      ),
+    };
+  
+    server = setupServer(...Object.values(httpRequestHandlers));
+    server.listen();
   });
 
   afterAll(() => server.close());
