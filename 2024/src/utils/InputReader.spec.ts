@@ -13,6 +13,8 @@ describe("InputReader", () => {
         files: {
           "columns.txt": `1 2\n3    4\n`,
           "lines.txt": `1 9\n2 8`,
+          "raw.txt": `this is some raw text
+  With multiple lines`,
         },
       },
     });
@@ -34,5 +36,12 @@ describe("InputReader", () => {
       ["1", "9"],
       ["2", "8"],
     ]);
+  });
+
+  it("should return the raw content of the file", () => {
+    const inputReader = new InputReader(`${__dirname}/files/raw.txt`);
+    const lines = inputReader.readRaw();
+    expect(lines).toEqual(`this is some raw text
+  With multiple lines`);
   });
 });

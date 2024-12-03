@@ -5,8 +5,11 @@ export class InputReader {
   constructor(input: string) {
     this.input = input;
   }
+  readRaw(): string {
+    return readFileSync(this.input, "utf-8");
+  }
   readLines(): string[][] {
-    return readFileSync(this.input, "utf-8")
+    return this.readRaw()
       .split("\n")
       .filter((line) => line !== "")
       .map((line) => line.trim().split(/\s+/));
