@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "eslint-config-emarsys": "^5.1.0",
+    "eslint-plugin-security": "^3.0.1"
+  }
+}
